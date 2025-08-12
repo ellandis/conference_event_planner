@@ -209,7 +209,7 @@ const ConferenceEvent = () => {
                   </div>
                 ))}
               </div>
-              <div className="total_cost">Total Cost: {avTotalCost}</div>{" "}
+              <div className="total_cost">Total Cost: {avTotalCost}</div>
             </div>
 
             {/* Meal Section */}
