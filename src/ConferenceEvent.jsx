@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "./ConferenceEvent.css";
 import TotalCost from "./TotalCost";
+import { incrementAvQuantity, decrementAvQuantity } from "./avSlice";
 import { useSelector, useDispatch } from "react-redux";
 import { incrementQuantity, decrementQuantity } from "./venueSlice";
 const ConferenceEvent = () => {
@@ -8,6 +9,7 @@ const ConferenceEvent = () => {
   const [numberOfPeople, setNumberOfPeople] = useState(1);
 
   const venueItems = useSelector((state) => state.venue);
+  const avTotalCost = calculateTotalCost("av");
   const dispatch = useDispatch();
   const remainingAuditoriumQuantity =
     3 -
@@ -35,9 +37,13 @@ const ConferenceEvent = () => {
       dispatch(decrementQuantity(index));
     }
   };
-  const handleIncrementAvQuantity = (index) => {};
+  const handleIncrementAvQuantity = (index) => {
+    dispatch(incrementAvQuantity(index));
+  };
 
-  const handleDecrementAvQuantity = (index) => {};
+  const handleDecrementAvQuantity = (index) => {
+    dispatch(decrementAvQuantity(index));
+  };
 
   const handleMealSelection = (index) => {};
 
@@ -52,6 +58,10 @@ const ConferenceEvent = () => {
     let totalCost = 0;
     if (section === "venue") {
       venueItems.forEach((item) => {
+        totalCost += item.cost * item.quantity;
+      });
+    } else if (section === "av") {
+      avItems.forEach((item) => {
         totalCost += item.cost * item.quantity;
       });
     }
@@ -199,7 +209,7 @@ const ConferenceEvent = () => {
                   </div>
                 ))}
               </div>
-              <div className="total_cost">Total Cost:</div>
+              <div className="total_cost">Total Cost: {avTotalCost}</div>{" "}
             </div>
 
             {/* Meal Section */}
